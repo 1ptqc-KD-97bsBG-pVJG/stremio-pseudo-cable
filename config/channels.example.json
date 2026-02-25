@@ -1,0 +1,94 @@
+{
+  "channels": [
+    {
+      "id": "ch-101-classic-favorites",
+      "name": "101 Classic Favorites",
+      "description": "Foundational classics and all-time audience favorites",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "classic-favorites-v1",
+      "programIds": ["tt0111161", "tt0068646", "tt0034583", "tt0109830", "tt0110912"]
+    },
+    {
+      "id": "ch-102-crime-detectives",
+      "name": "102 Crime & Detectives",
+      "description": "Mysteries, investigations, and courtroom tension",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "crime-detectives-v1",
+      "programIds": ["tt0102926", "tt0071315", "tt0119488", "tt0114369", "tt0053125"]
+    },
+    {
+      "id": "ch-103-family-movie-night",
+      "name": "103 Family Movie Night",
+      "description": "Easy-to-share picks for mixed-age households",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "family-movie-night-v1",
+      "programIds": ["tt0099785", "tt0083866", "tt0114709", "tt0110357", "tt0088763"]
+    },
+    {
+      "id": "ch-104-westerns-americana",
+      "name": "104 Westerns & Americana",
+      "description": "Frontier stories and classic American adventure",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "westerns-americana-v1",
+      "programIds": ["tt0060196", "tt0059800", "tt0064115", "tt0105695", "tt0044706"]
+    },
+    {
+      "id": "ch-105-war-history",
+      "name": "105 War & History",
+      "description": "Historical epics and wartime dramas",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "war-history-v1",
+      "programIds": ["tt0057115", "tt0050212", "tt0066206", "tt0112384", "tt0082096"]
+    },
+    {
+      "id": "ch-106-comedy-hour",
+      "name": "106 Comedy Hour",
+      "description": "Familiar comedies and comfort laughs",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "comedy-hour-v1",
+      "programIds": ["tt0107048", "tt0053291", "tt0107614", "tt0104952", "tt0087332"]
+    },
+    {
+      "id": "ch-107-action-theater",
+      "name": "107 Action Theater",
+      "description": "Straightforward action with recognizable heroes",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "action-theater-v1",
+      "programIds": ["tt0095016", "tt0106977", "tt0082971", "tt0133093", "tt0172495"]
+    },
+    {
+      "id": "ch-108-romance-drama",
+      "name": "108 Romance & Drama",
+      "description": "Heart-led stories with broad audience appeal",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "romance-drama-v1",
+      "programIds": ["tt0046250", "tt0098635", "tt0100405", "tt0108160", "tt0059742"]
+    },
+    {
+      "id": "ch-109-sci-fi-adventure",
+      "name": "109 Sci-Fi Adventure",
+      "description": "Big-concept adventures and space-age classics",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "sci-fi-adventure-v1",
+      "programIds": ["tt0076759", "tt0075860", "tt0107290", "tt1375666", "tt3659388"]
+    },
+    {
+      "id": "ch-110-music-performance",
+      "name": "110 Music & Performance",
+      "description": "Musicals and performance-driven crowd-pleasers",
+      "timezone": "America/New_York",
+      "slotMinutes": 120,
+      "rotationSeed": "music-performance-v1",
+      "programIds": ["tt0045152", "tt0086879", "tt0076666", "tt0047522", "tt0061722"]
+    }
+  ]
+}
