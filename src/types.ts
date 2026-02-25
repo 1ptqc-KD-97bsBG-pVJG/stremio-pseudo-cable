@@ -13,6 +13,7 @@ export type ChannelConfig = {
   timezone?: string;
   slotMinutes: number;
   rotationSeed: string;
+  antiRepeatWindowSlots?: number;
   programIds: string[];
 };
 
@@ -25,5 +26,6 @@ export type ScheduledItem = {
   channelName: string;
   slotStartUnix: number;
   slotEndUnix: number;
+  slotIndex: number;
   program: ProgramRef;
 };
