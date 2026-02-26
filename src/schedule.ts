@@ -27,18 +27,12 @@ function candidateProgramId(channel: ChannelConfig, slotIndex: number, attempt: 
   return channel.programIds[programIndex];
 }
 
-function getScheduledProgramForSlot(
+function resolveProgramForSlot(
   channel: ChannelConfig,
   slotIndex: number,
   memo: Map<number, ProgramRef>
-): ProgramRef {
-  if (memo.has(slotIndex)) {
-    return memo.get(slotIndex)!;
-  }
-
-  if (!channel.programIds.length) {
-    throw new Error(`Channel ${channel.id} has no programIds configured.`);
-  }
+): void {
+  if (memo.has(slotIndex)) return;
 
   const antiRepeatWindow = getSlotWindow(channel);
   const previousPrograms = new Set<string>();
@@ -46,7 +40,8 @@ function getScheduledProgramForSlot(
   for (let i = 1; i <= antiRepeatWindow; i += 1) {
     const prevSlot = slotIndex - i;
     if (prevSlot < 0) break;
-    previousPrograms.add(getScheduledProgramForSlot(channel, prevSlot, memo).id);
+    const prev = memo.get(prevSlot);
+    if (prev) previousPrograms.add(prev.id);
   }
 
   const maxAttempts = Math.max(1, channel.programIds.length);
@@ -60,7 +55,7 @@ function getScheduledProgramForSlot(
     }
 
     memo.set(slotIndex, program);
-    return program;
+    return;
   }
 
   const fallbackProgramId = candidateProgramId(channel, slotIndex, 0);
@@ -71,14 +66,45 @@ function getScheduledProgramForSlot(
   }
 
   memo.set(slotIndex, fallback);
-  return fallback;
+}
+
+const channelMemoCache = new Map<string, Map<number, ProgramRef>>();
+
+function getChannelMemo(channelId: string): Map<number, ProgramRef> {
+  let memo = channelMemoCache.get(channelId);
+  if (!memo) {
+    memo = new Map<number, ProgramRef>();
+    channelMemoCache.set(channelId, memo);
+  }
+  return memo;
+}
+
+function ensureSlotComputed(
+  channel: ChannelConfig,
+  slotIndex: number,
+  memo: Map<number, ProgramRef>
+): ProgramRef {
+  if (memo.has(slotIndex)) {
+    return memo.get(slotIndex)!;
+  }
+
+  if (!channel.programIds.length) {
+    throw new Error(`Channel ${channel.id} has no programIds configured.`);
+  }
+
+  for (let s = 0; s <= slotIndex; s += 1) {
+    resolveProgramForSlot(channel, s, memo);
+  }
+
+  return memo.get(slotIndex)!;
 }
 
 export function getScheduledItemAtSlot(channel: ChannelConfig, slotIndex: number): ScheduledItem {
   const slotSec = getSlotSec(channel);
   const slotStartUnix = slotIndex * slotSec;
   const slotEndUnix = slotStartUnix + slotSec;
-  const program = getScheduledProgramForSlot(channel, slotIndex, new Map<number, ProgramRef>());
+  const memo = getChannelMemo(channel.id);
+  const program = ensureSlotComputed(channel, slotIndex, memo);
 
   return {
     channelId: channel.id,
@@ -98,14 +124,14 @@ export function getScheduledItem(channel: ChannelConfig, unixTimeSec: number): S
 export function getUpNextItems(channel: ChannelConfig, unixTimeSec: number, count: number): ScheduledItem[] {
   const clampedCount = Math.max(1, Math.min(6, count));
   const nowSlotIndex = Math.floor(unixTimeSec / getSlotSec(channel));
-  const memo = new Map<number, ProgramRef>();
+  const memo = getChannelMemo(channel.id);
 
   return Array.from({ length: clampedCount }, (_, i) => {
     const slotIndex = nowSlotIndex + i + 1;
     const slotSec = getSlotSec(channel);
     const slotStartUnix = slotIndex * slotSec;
     const slotEndUnix = slotStartUnix + slotSec;
-    const program = getScheduledProgramForSlot(channel, slotIndex, memo);
+    const program = ensureSlotComputed(channel, slotIndex, memo);
 
     return {
       channelId: channel.id,
