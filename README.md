@@ -6,12 +6,17 @@ A metadata-only Stremio addon that emulates predictable cable channels.
 - Builds deterministic "what's on now" channels from a local config
 - Exposes **On Now** and **Up Next** catalog entries using canonical IDs (e.g., IMDb IDs)
 - Uses a deterministic anti-repeat window so recent slots do not immediately repeat
+- Includes deterministic autoplay policy utilities for pseudo-channel stream candidate ranking:
+  - **single-stream mode** (returns one selected stream from a candidate set)
+  - **stable bingeGroup assignment** (`behaviorHints.bingeGroup`) for episode continuity
 - Relies on existing installed VOD addons for actual stream resolution
 
 ## What this does NOT do
 - No media hosting
 - No transcoding
 - No rebroadcasting
+- Does not force Stremio to auto-pick first stream from third-party addons that return multiple sources
+- Does not guarantee perfect quality choice; ranking is deterministic and policy-based
 
 ## Local setup
 1. Install dependencies:
@@ -46,7 +51,9 @@ The anti-repeat window is deterministic and reproducible across runs for the sam
 ## Validation
 - Type checks: `npm run check`
 - Build: `npm run build`
-- Schedule invariants: `npm run test` (validates anti-repeat behavior per channel)
+- Tests: `npm run test`
+  - schedule invariants (anti-repeat behavior per channel)
+  - autoplay invariants (deterministic single-stream ranking + stable bingeGroup)
 
 ## Configuration
 - Default config path: `config/channels.json`

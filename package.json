@@ -10,7 +10,8 @@
     "start": "node dist/index.js",
     "check": "tsc --noEmit",
     "test:schedule": "tsx src/schedule.invariants.ts",
-    "test": "npm run test:schedule"
+    "test:autoplay": "tsx src/autoplay.invariants.ts",
+    "test": "npm run test:schedule && npm run test:autoplay"
   },
   "dependencies": {
     "stremio-addon-sdk": "^1.6.10"
